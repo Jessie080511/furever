@@ -144,7 +144,10 @@
     <label>Signature By Owner:</label>
     <canvas id="sig"></canvas>
 
-    <button onclick="downloadPDF()">Download PDF</button>
+<div style="margin-top: 15px; display: flex; gap: 15px;">
+  <button onclick="downloadPDF()">Download PDF</button>
+  <button onclick="clearSignature()" style="background-color: #e0e0e0; color: #444;">Clear Signature</button>
+</div>
 
     <script>
         const { jsPDF } = window.jspdf;
@@ -245,6 +248,10 @@ I hereby grant permission to this grooming establishment to utilize proper restr
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
         }
+        function clearSignature() {
+  sigPad.clear();
+}
+
 
     </script>
 </body>
