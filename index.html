@@ -155,8 +155,15 @@
     <script>
         const { jsPDF } = window.jspdf;
         const canvas = document.getElementById("sig");
-        canvas.width = canvas.offsetWidth * window.devicePixelRatio;
-        canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+        function resizeCanvas() {
+  const ratio = Math.max(window.devicePixelRatio || 1, 1);
+  canvas.width = canvas.offsetWidth * ratio;
+  canvas.height = canvas.offsetHeight * ratio;
+  canvas.getContext("2d").scale(ratio, ratio);
+}
+resizeCanvas(); // 初始调用一次
+window.addEventListener("resize", resizeCanvas);
+
         const sigPad = new SignaturePad(canvas, {
             penColor: "black",
             backgroundColor: "white"
@@ -244,7 +251,16 @@ I hereby grant permission to this grooming establishment to utilize proper restr
             const imgData = sigPad.toDataURL();
             pdf.addImage(imgData, 'PNG', leftX, y, 120, 50);
 
-            pdf.save("Furever_Pet_Release.pdf");
+            const blob = pdf.output("blob");
+const url = URL.createObjectURL(blob);
+const a = document.createElement("a");
+a.href = url;
+a.download = "Furever_Pet_Release.pdf";
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+URL.revokeObjectURL(url);
+
         }
 
     </script>
